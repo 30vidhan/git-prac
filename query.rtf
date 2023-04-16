@@ -1,0 +1,265 @@
+{\rtf1\ansi\deff0\nouicompat{\fonttbl{\f0\fnil\fcharset0 Calibri;}}
+{\*\generator Riched20 10.0.19041}\viewkind4\uc1 
+\pard\sa200\sl276\slmult1\f0\fs22\lang9 Enter password: ****\par
+Welcome to the MySQL monitor.  Commands end with ; or \\g.\par
+Your MySQL connection id is 8\par
+Server version: 8.0.32 MySQL Community Server - GPL\par
+\par
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.\par
+\par
+Oracle is a registered trademark of Oracle Corporation and/or its\par
+affiliates. Other names may be trademarks of their respective\par
+owners.\par
+\par
+Type 'help;' or '\\h' for help. Type '\\c' to clear the current input statement.\par
+\par
+mysql> show databases;\par
++--------------------+\par
+| Database           |\par
++--------------------+\par
+| company            |\par
+| information_schema |\par
+| mysql              |\par
+| performance_schema |\par
+| sys                |\par
++--------------------+\par
+5 rows in set (0.15 sec)\par
+\par
+mysql> use company;\par
+Database changed\par
+mysql> show tables;\par
++-------------------+\par
+| Tables_in_company |\par
++-------------------+\par
+| laptop            |\par
+| student           |\par
++-------------------+\par
+2 rows in set (0.07 sec)\par
+\par
+mysql> select * from student\par
+    -> ;\par
++----+--------+-------+---------+-----------+\par
+| id | name   | city  | country | state     |\par
++----+--------+-------+---------+-----------+\par
+|  1 | vidhan | kota  | india   | rajasthan |\par
+|  2 | rudra  | delhi | india   | delhi     |\par
+|  3 | akshat | kota  | india   | rajasthan |\par
+|  4 | ram    | delhi | ind     | delhi     |\par
+|  5 | raman  | kota  | india   | rajasthan |\par
++----+--------+-------+---------+-----------+\par
+5 rows in set (0.06 sec)\par
+\par
+mysql> select * from employee\par
+    -> ;\par
+ERROR 1146 (42S02): Table 'company.employee' doesn't exist\par
+mysql> select * from employee;\par
+ERROR 1146 (42S02): Table 'company.employee' doesn't exist\par
+mysql> select * from laptop;\par
++-----+--------+-----------+\par
+| lid | lmodel | studentId |\par
++-----+--------+-----------+\par
+| 101 | HP     |         1 |\par
+| 102 | DELL   |         2 |\par
++-----+--------+-----------+\par
+2 rows in set (0.03 sec)\par
+\par
+mysql> select name,city,state from student LEFT JOIN laptop on student.id=laptop.studentID\par
+    -> ;\par
++--------+-------+-----------+\par
+| name   | city  | state     |\par
++--------+-------+-----------+\par
+| vidhan | kota  | rajasthan |\par
+| rudra  | delhi | delhi     |\par
+| akshat | kota  | rajasthan |\par
+| ram    | delhi | delhi     |\par
+| raman  | kota  | rajasthan |\par
++--------+-------+-----------+\par
+5 rows in set (0.00 sec)\par
+\par
+mysql> select name,city,state from student RIGHT JOIN laptop on student.id=laptop.studentID;\par
++--------+-------+-----------+\par
+| name   | city  | state     |\par
++--------+-------+-----------+\par
+| vidhan | kota  | rajasthan |\par
+| rudra  | delhi | delhi     |\par
++--------+-------+-----------+\par
+2 rows in set (0.00 sec)\par
+\par
+mysql> select * from student;\par
++----+--------+-------+---------+-----------+\par
+| id | name   | city  | country | state     |\par
++----+--------+-------+---------+-----------+\par
+|  1 | vidhan | kota  | india   | rajasthan |\par
+|  2 | rudra  | delhi | india   | delhi     |\par
+|  3 | akshat | kota  | india   | rajasthan |\par
+|  4 | ram    | delhi | ind     | delhi     |\par
+|  5 | raman  | kota  | india   | rajasthan |\par
++----+--------+-------+---------+-----------+\par
+5 rows in set (0.00 sec)\par
+\par
+mysql> select count(id),name,city from student group by city;\par
+ERROR 1055 (42000): Expression #2 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'company.student.name' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by\par
+mysql> select count(id) , name , city from student group by city;\par
+ERROR 1055 (42000): Expression #2 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'company.student.name' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by\par
+mysql> select count(id) , name , city from student group by city;\par
+ERROR 1055 (42000): Expression #2 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'company.student.name' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by\par
+mysql> select count(id) , name , city from student\par
+    -> group by city;\par
+ERROR 1055 (42000): Expression #2 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'company.student.name' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by\par
+mysql> select count(id) , name , city from student\par
+    -> group by state;\par
+ERROR 1055 (42000): Expression #2 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'company.student.name' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by\par
+mysql> select count(id) , name , city from student\par
+    -> groupby city;\par
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'city' at line 2\par
+mysql> select count(id) , name , city from student\par
+    -> Groupby city;\par
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'city' at line 2\par
+mysql> select count(id) , name , city from student\par
+    -> GROUP BY city;\par
+ERROR 1055 (42000): Expression #2 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'company.student.name' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by\par
+mysql> SELECT COUNT(id), name, city from student\par
+    -> GROUP BY city;\par
+ERROR 1055 (42000): Expression #2 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'company.student.name' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by\par
+mysql> select COUNT(id) , name , city from student GROUPBY city;\par
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'city' at line 1\par
+mysql> select COUNT(id) , name , city from student GROUP BY city;\par
+ERROR 1055 (42000): Expression #2 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'company.student.name' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by\par
+mysql> alter table student AUTO_INCREMENT=100;\par
+Query OK, 0 rows affected (0.18 sec)\par
+Records: 0  Duplicates: 0  Warnings: 0\par
+\par
+mysql> insert into student('name','city','country','state')\par
+    -> values('kitty','raipura','india','Rajasthan');\par
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''name','city','country','state')\par
+values('kitty','raipura','india','Rajasthan')' at line 1\par
+mysql> insert into student('name','city','country','state')\par
+    -> values('kitty','raipura','india','Rajasthan');\par
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''name','city','country','state')\par
+values('kitty','raipura','india','Rajasthan')' at line 1\par
+mysql> INSERT INTO student('name','city','country','state')\par
+    -> VALUES('kitty','raipura','india','Rajasthan');\par
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''name','city','country','state')\par
+VALUES('kitty','raipura','india','Rajasthan')' at line 1\par
+mysql> insert into student('name','city','country','state') values('vidhan','kota','raipura','raj');\par
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''name','city','country','state') values('vidhan','kota','raipura','raj')' at line 1\par
+mysql> insert into student ('name','state','city','state')\par
+    -> values ('vidz','raj','kota','\par
+    '>\par
+    '> ^C\par
+mysql> insert into student('kitty','kota','india','raj';\par
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''kitty','kota','india','raj'' at line 1\par
+mysql> select * from student;\par
++----+--------+-------+---------+-----------+\par
+| id | name   | city  | country | state     |\par
++----+--------+-------+---------+-----------+\par
+|  1 | vidhan | kota  | india   | rajasthan |\par
+|  2 | rudra  | delhi | india   | delhi     |\par
+|  3 | akshat | kota  | india   | rajasthan |\par
+|  4 | ram    | delhi | ind     | delhi     |\par
+|  5 | raman  | kota  | india   | rajasthan |\par
++----+--------+-------+---------+-----------+\par
+5 rows in set (0.00 sec)\par
+\par
+mysql> insert into student('name','city','country','state') values('vidz','kota','india','raj');\par
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''name','city','country','state') values('vidz','kota','india','raj')' at line 1\par
+mysql> insert into student('id','name','city','country','state') values(6,'vidz','kota','india','raj');\par
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''id','name','city','country','state') values(6,'vidz','kota','india','raj')' at line 1\par
+mysql> insert into student ('name','city','country','state')\par
+    -> values ('vidhan','kota','india','raj')\par
+    -> ;\par
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''name','city','country','state')\par
+values ('vidhan','kota','india','raj')' at line 1\par
+mysql> INSERT INTO tasks(title,priority)\par
+    -> ^C\par
+mysql> INSERT INTO tasks(title,priority)\par
+    -> select * from student;^C\par
+mysql> INSERT INTO student(name,city,country,state)\par
+    -> values ('vidhan','kota','india','raj');\par
+ERROR 1364 (HY000): Field 'id' doesn't have a default value\par
+mysql> INSERT INTO student(id,name,city,country,state)\par
+    -> values (6,'vidzz','kota','india','raj');\par
+Query OK, 1 row affected (0.10 sec)\par
+\par
+mysql> select * from student;\par
++----+--------+-------+---------+-----------+\par
+| id | name   | city  | country | state     |\par
++----+--------+-------+---------+-----------+\par
+|  1 | vidhan | kota  | india   | rajasthan |\par
+|  2 | rudra  | delhi | india   | delhi     |\par
+|  3 | akshat | kota  | india   | rajasthan |\par
+|  4 | ram    | delhi | ind     | delhi     |\par
+|  5 | raman  | kota  | india   | rajasthan |\par
+|  6 | vidzz  | kota  | india   | raj       |\par
++----+--------+-------+---------+-----------+\par
+6 rows in set (0.00 sec)\par
+\par
+mysql> create table employee (id int(11) primary key AUTO_INCREMENT,name varchar(50) not null;\par
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1\par
+mysql> create table employee (id int(11) primary key AUTO_INCREMENT,name varchar(50) notnull;\par
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'notnull' at line 1\par
+mysql> create table employee (id int(11) AUTO_INCREMENT,name varchar(50) not null;\par
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1\par
+mysql> create table employee (id int(11) primary key AUTO_INCREMENT, name varchar(50) not null);\par
+Query OK, 0 rows affected, 1 warning (0.18 sec)\par
+\par
+mysql> select * from employee;\par
+Empty set (0.00 sec)\par
+\par
+mysql> show employee;\par
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'employee' at line 1\par
+mysql> show tables;\par
++-------------------+\par
+| Tables_in_company |\par
++-------------------+\par
+| employee          |\par
+| laptop            |\par
+| student           |\par
++-------------------+\par
+3 rows in set (0.00 sec)\par
+\par
+mysql> desc employee;\par
++-------+-------------+------+-----+---------+----------------+\par
+| Field | Type        | Null | Key | Default | Extra          |\par
++-------+-------------+------+-----+---------+----------------+\par
+| id    | int         | NO   | PRI | NULL    | auto_increment |\par
+| name  | varchar(50) | NO   |     | NULL    |                |\par
++-------+-------------+------+-----+---------+----------------+\par
+2 rows in set (0.04 sec)\par
+\par
+mysql> insert into employee(name)\par
+    -> values ('vidhan');\par
+Query OK, 1 row affected (0.06 sec)\par
+\par
+mysql> insert into employee(name)\par
+    -> values ('vidhi');\par
+Query OK, 1 row affected (0.04 sec)\par
+\par
+mysql> select * from employee\par
+    -> ;\par
++----+--------+\par
+| id | name   |\par
++----+--------+\par
+|  1 | vidhan |\par
+|  2 | vidhi  |\par
++----+--------+\par
+2 rows in set (0.00 sec)\par
+\par
+mysql> create index sno on employee (column1,cloumn2);\par
+ERROR 1072 (42000): Key column 'column1' doesn't exist in table\par
+mysql> create index sno on employee (id,name);\par
+Query OK, 0 rows affected (0.42 sec)\par
+Records: 0  Duplicates: 0  Warnings: 0\par
+\par
+mysql> select * from employee;\par
++----+--------+\par
+| id | name   |\par
++----+--------+\par
+|  1 | vidhan |\par
+|  2 | vidhi  |\par
++----+--------+\par
+2 rows in set (0.00 sec)\par
+\par
+mysql>\par
+}
+ 
